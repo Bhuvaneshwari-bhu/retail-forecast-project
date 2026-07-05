@@ -1,0 +1,79 @@
+# Scheduled drift check + closed-loop retraining.
+#
+# WHY THIS RUNS HERE INSTEAD OF ON AWS:
+# GitHub Actions gives unlimited free minutes on a public repo, forever -
+# no 12-month clock, no account to manage. This is genuinely a better fit
+# for "run a check periodically" than a 24/7 server would be anyway.
+#
+# WHAT THIS DEMONSTRATES (honest scope note):
+# Since the live AWS deployment is torn down after demo recording, this
+# workflow runs drift_check.py and retrain.py against a SNAPSHOT of
+# replayed data committed to the repo (data/logs/predictions.jsonl and
+# streamed_training_data.jsonl from monitoring/replay_stream.py) rather
+# than truly live production traffic. In a real deployment, drift_check.py
+# would instead read from DynamoDB - swapping that data source is a small
+# change, not a redesign, since the drift/retrain LOGIC is identical either
+# way. This still proves the automation actually works end to end.
+
+name: Scheduled Drift Check and Retrain
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # daily at 6am UTC
+  workflow_dispatch:        # lets you trigger it manually from the Actions tab
+
+permissions:
+  contents: write   # needed to commit an updated model back to the repo
+
+jobs:
+  drift-and-retrain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run drift check
+        run: python monitoring/drift_check.py
+
+      - name: Read drift result
+        id: drift
+        run: |
+          python -c "
+          import json
+          with open('data/monitoring/drift_summary.json') as f:
+              summary = json.load(f)
+          detected = summary['any_drift_detected']
+          print(f'any_drift={str(detected).lower()}')
+          " >> "$GITHUB_OUTPUT"
+
+      - name: Run retraining if drift detected
+        if: steps.drift.outputs.any_drift == 'true'
+        run: |
+          python retraining/retrain.py \
+            --reason "Scheduled GitHub Actions drift check ($(date -u +%Y-%m-%dT%H:%M:%SZ))" \
+            --no_reload
+
+      - name: Commit updated model and logs (if changed)
+        if: steps.drift.outputs.any_drift == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add models/ data/logs/retrain_events.jsonl data/monitoring/drift_summary.json
+          git diff --staged --quiet || git commit -m "Auto-retrain: drift detected [skip ci]"
+          git push
+
+      - name: Upload drift report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-summary
+          path: data/monitoring/drift_summary.json
+          retention-days: 30

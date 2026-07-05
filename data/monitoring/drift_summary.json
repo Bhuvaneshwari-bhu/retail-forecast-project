@@ -1,0 +1,70 @@
+{
+  "timestamp": "2026-07-04T17:59:39.499327+00:00",
+  "n_reference_rows": 20000,
+  "n_current_rows": 9003,
+  "any_drift_detected": false,
+  "z_score_threshold": 2.0,
+  "columns": {
+    "lag_1": {
+      "reference_mean": 5.8788,
+      "current_mean": 11.0913,
+      "z_score": 0.4944,
+      "drift_flagged": false
+    },
+    "lag_7": {
+      "reference_mean": 5.8472,
+      "current_mean": 6.558,
+      "z_score": 0.0661,
+      "drift_flagged": false
+    },
+    "lag_28": {
+      "reference_mean": 5.94,
+      "current_mean": 4.8033,
+      "z_score": 0.1075,
+      "drift_flagged": false
+    },
+    "rolling_mean_7": {
+      "reference_mean": 5.8698,
+      "current_mean": 8.5399,
+      "z_score": 0.2909,
+      "drift_flagged": false
+    },
+    "rolling_mean_28": {
+      "reference_mean": 5.8612,
+      "current_mean": 5.8804,
+      "z_score": 0.0022,
+      "drift_flagged": false
+    },
+    "rolling_std_7": {
+      "reference_mean": 3.3968,
+      "current_mean": 2.7514,
+      "z_score": 0.1488,
+      "drift_flagged": false
+    },
+    "sell_price": {
+      "reference_mean": 2.1127,
+      "current_mean": 2.4787,
+      "z_score": 0.2134,
+      "drift_flagged": false
+    },
+    "temp_max_c": {
+      "reference_mean": 22.1124,
+      "current_mean": 20.0,
+      "z_score": 0.2028,
+      "drift_flagged": false
+    },
+    "temp_min_c": {
+      "reference_mean": 11.2449,
+      "current_mean": 10.0,
+      "z_score": 0.1289,
+      "drift_flagged": false
+    },
+    "precipitation_mm": {
+      "reference_mean": 1.8034,
+      "current_mean": 0.0,
+      "z_score": 0.3186,
+      "drift_flagged": false
+    }
+  },
+  "html_report_path": "/home/user/retail-forecast-project/monitoring/../monitoring/../data/monitoring/reports/drift_20260704T175939Z.html"
+}

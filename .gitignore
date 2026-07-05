@@ -1,0 +1,40 @@
+# Large raw/intermediate data - regenerate locally via src/ scripts, never commit
+data/raw/
+data/processed/
+data/streaming/
+duckdb_tmp/
+
+# Keep these SMALL files (needed by GitHub Actions for drift check + retrain):
+#   data/monitoring/reference_data.parquet   (~20K rows, a few MB)
+#   data/logs/predictions.jsonl              (drift check "current" data)
+#   data/logs/streamed_training_data.jsonl   (labeled data for retraining)
+#   data/logs/retrain_events.jsonl           (audit trail)
+#   data/monitoring/drift_summary.json
+#   data/monitoring/replay_drift_log.csv
+# Everything else generated under data/monitoring/reports/ (HTML reports) -
+# skip these, they're regenerated on each run and can get large over time.
+data/monitoring/reports/
+data/monitoring/latest_drift_report.html
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Local test/debug artifacts
+test-event.json
+test-predict-event.json
+response.json
+predict-response*.json
+trust-policy.json
+
+# OS/editor cruft
+.DS_Store
+.vscode/
+.idea/
+
+# MLflow local run data can be large with multiple experiments - keep only
+# if you specifically want it versioned; otherwise download from Drive
+# on-demand for the demo (see DEMO_SCRIPT.md) rather than committing it.
+mlruns/

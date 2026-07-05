@@ -1,0 +1,22 @@
+{
+  "item_id": "FOODS_1_004",
+  "store_id": "CA_1",
+  "state_id": "CA",
+  "lag_1": 3,
+  "lag_7": 5,
+  "lag_28": 2,
+  "rolling_mean_7": 4.1,
+  "rolling_mean_28": 3.8,
+  "rolling_std_7": 1.2,
+  "sell_price": 2.5,
+  "price_change": 0.0,
+  "temp_max_c": 20.0,
+  "temp_min_c": 10.0,
+  "precipitation_mm": 0.0,
+  "is_holiday": 0,
+  "days_to_next_holiday": 10,
+  "weekday": 2,
+  "month": 6,
+  "year": 2016,
+  "is_weekend": 0
+}

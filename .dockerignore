@@ -1,0 +1,11 @@
+data/
+notebooks/
+venv/
+duckdb_tmp/
+models/
+monitoring/
+retraining/
+src/
+.git/
+__pycache__/
+*.pyc

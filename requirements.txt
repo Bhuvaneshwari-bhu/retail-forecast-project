@@ -1,0 +1,16 @@
+pandas
+numpy
+requests
+holidays
+Faker
+python-dotenv
+pyarrow
+duckdb
+fastapi
+uvicorn[standard]
+lightgbm
+prometheus-fastapi-instrumentator
+evidently
+streamlit
+boto3
+mangum

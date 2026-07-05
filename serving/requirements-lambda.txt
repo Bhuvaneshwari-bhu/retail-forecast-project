@@ -1,0 +1,12 @@
+# Slim dependency set for the Lambda container image - only what the
+# serving API actually needs at runtime. Excludes dev/training-only tools
+# (duckdb, streamlit, evidently, Faker, holidays, kaggle) to keep the image
+# smaller and builds faster.
+fastapi
+mangum
+lightgbm
+pandas
+numpy
+boto3
+pydantic
+prometheus-fastapi-instrumentator
