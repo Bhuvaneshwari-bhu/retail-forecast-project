@@ -1,70 +1,52 @@
 {
-  "timestamp": "2026-07-04T17:59:39.499327+00:00",
+  "timestamp": "2026-07-05T08:16:25.744649+00:00",
   "n_reference_rows": 20000,
-  "n_current_rows": 9003,
-  "any_drift_detected": false,
+  "n_current_rows": 500,
+  "any_drift_detected": true,
   "z_score_threshold": 2.0,
   "columns": {
     "lag_1": {
       "reference_mean": 5.8788,
-      "current_mean": 11.0913,
-      "z_score": 0.4944,
-      "drift_flagged": false
+      "current_mean": 31.1922,
+      "z_score": 2.4008,
+      "drift_flagged": true
     },
     "lag_7": {
       "reference_mean": 5.8472,
-      "current_mean": 6.558,
-      "z_score": 0.0661,
+      "current_mean": 14.8818,
+      "z_score": 0.84,
       "drift_flagged": false
     },
     "lag_28": {
       "reference_mean": 5.94,
-      "current_mean": 4.8033,
-      "z_score": 0.1075,
+      "current_mean": 5.0202,
+      "z_score": 0.087,
       "drift_flagged": false
     },
     "rolling_mean_7": {
       "reference_mean": 5.8698,
-      "current_mean": 8.5399,
-      "z_score": 0.2909,
+      "current_mean": 22.1968,
+      "z_score": 1.7787,
       "drift_flagged": false
     },
     "rolling_mean_28": {
       "reference_mean": 5.8612,
-      "current_mean": 5.8804,
-      "z_score": 0.0022,
+      "current_mean": 10.2154,
+      "z_score": 0.5069,
       "drift_flagged": false
     },
     "rolling_std_7": {
       "reference_mean": 3.3968,
-      "current_mean": 2.7514,
-      "z_score": 0.1488,
+      "current_mean": 6.9065,
+      "z_score": 0.8094,
       "drift_flagged": false
     },
     "sell_price": {
       "reference_mean": 2.1127,
-      "current_mean": 2.4787,
-      "z_score": 0.2134,
-      "drift_flagged": false
-    },
-    "temp_max_c": {
-      "reference_mean": 22.1124,
-      "current_mean": 20.0,
-      "z_score": 0.2028,
-      "drift_flagged": false
-    },
-    "temp_min_c": {
-      "reference_mean": 11.2449,
-      "current_mean": 10.0,
-      "z_score": 0.1289,
-      "drift_flagged": false
-    },
-    "precipitation_mm": {
-      "reference_mean": 1.8034,
-      "current_mean": 0.0,
-      "z_score": 0.3186,
+      "current_mean": 2.5334,
+      "z_score": 0.2453,
       "drift_flagged": false
     }
   },
-  "html_report_path": "/home/user/retail-forecast-project/monitoring/../monitoring/../data/monitoring/reports/drift_20260704T175939Z.html"
+  "html_report_path": null
 }

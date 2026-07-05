@@ -39,8 +39,17 @@ NUMERIC_COLS_TO_CHECK = [
 ]
 Z_SCORE_THRESHOLD = 2.0  # flag a column if |current_mean - ref_mean| > 2 * ref_std
 
+# How many of the MOST RECENT predictions count as "current" for drift
+# comparison. This matters: averaging in weeks of normal-then-drifted data
+# dilutes the signal (a mean over the whole history barely moves even if
+# the last few days shifted sharply). Real drift monitoring always checks
+# a recent window against the baseline, not "all of history" - so this
+# default approximates "check roughly the last few days" at typical
+# replay traffic volumes (~150 predictions/day in our replay setup).
+DEFAULT_CURRENT_WINDOW = 500
 
-def load_current_data():
+
+def load_current_data(window: int = DEFAULT_CURRENT_WINDOW):
     if not os.path.exists(PREDICTIONS_LOG):
         return pd.DataFrame()
 
@@ -56,7 +65,16 @@ def load_current_data():
             row["timestamp"] = rec["timestamp"]
             records.append(row)
 
-    return pd.DataFrame(records)
+    df = pd.DataFrame(records)
+    if df.empty:
+        return df
+
+    # keep only the most recent `window` rows, by timestamp - this is what
+    # makes the check reflect RECENT behavior instead of a diluted average
+    # over the entire logged history.
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values("timestamp", ascending=False).head(window)
+    return df
 
 
 def compute_zscore_drift(reference: pd.DataFrame, current: pd.DataFrame) -> dict:
@@ -109,14 +127,14 @@ def run_evidently_report(reference: pd.DataFrame, current: pd.DataFrame) -> str 
         return None
 
 
-def main():
+def main(window: int = DEFAULT_CURRENT_WINDOW):
     if not os.path.exists(REFERENCE_PATH):
         raise FileNotFoundError(
             f"Missing {REFERENCE_PATH}. Run monitoring/reference_data.py first."
         )
 
     reference = pd.read_parquet(REFERENCE_PATH)
-    current = load_current_data()
+    current = load_current_data(window=window)
 
     if current.empty:
         print(
@@ -126,7 +144,8 @@ def main():
         )
         return
 
-    print(f"Reference rows: {len(reference):,} | Current rows: {len(current):,}")
+    print(f"Reference rows: {len(reference):,} | "
+          f"Current rows: {len(current):,} (most recent {window} predictions)")
 
     zscore_results = compute_zscore_drift(reference, current)
     any_drift = any(v["drift_flagged"] for v in zscore_results.values())
@@ -156,4 +175,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--window", type=int, default=DEFAULT_CURRENT_WINDOW,
+        help="number of most-recent predictions to treat as 'current' data "
+             "(default: 500, roughly the last few days at replay traffic volumes)"
+    )
+    args = parser.parse_args()
+    main(window=args.window)
