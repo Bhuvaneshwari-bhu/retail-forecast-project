@@ -72,3 +72,4 @@
 {"timestamp": "2026-09-14T12:11:44.092354+00:00", "reason": "Scheduled GitHub Actions drift check (2026-09-14T12:11:41Z)", "n_new_rows": 9000, "n_val_rows": 2700, "old_model_wape": 0.227, "candidate_wape": 0.227, "decision": "rejected"}
 {"timestamp": "2026-09-15T11:21:51.018112+00:00", "reason": "Scheduled GitHub Actions drift check (2026-09-15T11:21:48Z)", "n_new_rows": 9000, "n_val_rows": 2700, "old_model_wape": 0.227, "candidate_wape": 0.227, "decision": "rejected"}
 {"timestamp": "2026-09-16T11:05:34.844166+00:00", "reason": "Scheduled GitHub Actions drift check (2026-09-16T11:05:32Z)", "n_new_rows": 9000, "n_val_rows": 2700, "old_model_wape": 0.227, "candidate_wape": 0.227, "decision": "rejected"}
+{"timestamp": "2026-09-17T11:15:30.768723+00:00", "reason": "Scheduled GitHub Actions drift check (2026-09-17T11:15:28Z)", "n_new_rows": 9000, "n_val_rows": 2700, "old_model_wape": 0.227, "candidate_wape": 0.227, "decision": "rejected"}
